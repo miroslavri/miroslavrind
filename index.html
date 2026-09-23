@@ -93,7 +93,6 @@ body {
   border: none;
   outline: none;
   box-shadow: none;
-  mix-blend-mode: multiply;
 }
 
 /* ── Hero ── */
@@ -184,6 +183,17 @@ body {
   transition: background 0.15s;
 }
 .hero-cta:hover { background: var(--accent-hover); }
+.hero-cta-group { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-cta-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.hero-cta-secondary:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+  color: var(--accent);
+}
 .hero-cta svg { width: 16px; height: 16px; flex-shrink: 0; }
 
 /* ── Address autocomplete ── */
@@ -271,6 +281,37 @@ body {
   .benefits { grid-template-columns: 1fr; }
 }
 
+.social-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 28px 0;
+  margin-bottom: 32px;
+}
+.proof-item { text-align: center; }
+.proof-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text);
+  line-height: 1.2;
+}
+.proof-label {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+.proof-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+}
+@media (max-width: 520px) {
+  .social-proof { gap: 16px; }
+  .proof-num { font-size: 18px; }
+}
 /* ── Form section ── */
 .form-section {
   background: var(--surface);
@@ -527,6 +568,16 @@ body {
   margin-right: 3px;
   color: var(--text-muted);
 }
+/* ── Fade-in on scroll ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
@@ -565,7 +616,7 @@ body {
       <span class="brand-name">Miroslav Rind</span>
       <span class="brand-role">Realitní makléř</span>
     </div>
-    <img class="remax-logo" alt="RE/MAX Alfa" src="data:image/png;base64,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">
+    <img class="remax-logo" alt="RE/MAX Alfa" src="data:image/png;base64,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">
   </header>
 
   <main>
@@ -584,7 +635,7 @@ body {
     </div>
   </section>
 
-  <div class="benefits">
+  <div class="benefits fade-in">
     <div class="benefit">
       <div class="benefit-icon">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2l2.5 5 5.5.8-4 3.9.9 5.3L10 14.5 5.1 17l.9-5.3-4-3.9 5.5-.8z"/></svg>
@@ -608,7 +659,45 @@ body {
     </div>
   </div>
 
-  <section class="form-section" id="formular">
+  <section class="process fade-in">
+    <h2>Jak to probíhá</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <h3>Vyplníte formulář</h3>
+        <p>Pošlete základní údaje o nemovitosti a situaci.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <h3>Zavolám vám</h3>
+        <p>Co nejdříve vám dám orientační pohled na cenu a co ji ovlivňuje.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <h3>Projdeme možnosti</h3>
+        <p>Společně se podíváme, jaký postup dává smysl pro vaši situaci.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="social-proof fade-in">
+    <div class="proof-item">
+      <span class="proof-num">10+</span>
+      <span class="proof-label">let v oboru</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <span class="proof-num">RE/MAX</span>
+      <span class="proof-label">mezinárodní síť</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <span class="proof-num">Brno</span>
+      <span class="proof-label">Černá Pole · Veveří</span>
+    </div>
+  </div>
+
+  <section class="form-section fade-in" id="formular">
     <div id="formView">
       <h2>Chci orientační odhad ceny</h2>
       <p class="form-intro">Vyplňte základní údaje o nemovitosti. Ozvu se vám co nejdříve.</p>
@@ -643,7 +732,7 @@ body {
             <div class="error-msg">Vyplňte prosím adresu</div>
           </div>
           <div class="field">
-            <label for="f-type">Typ nemovitosti</label>
+            <label for="f-type">Typ nemovitosti <span style="font-weight:400;color:var(--text-muted)">(nepovinné)</span></label>
             <select id="f-type" name="Typ nemovitosti">
               <option value="">— Vyberte —</option>
               <option value="Byt">Byt</option>
@@ -658,7 +747,7 @@ body {
             <input type="text" id="f-layout" name="Dispozice / velikost" placeholder="např. 3+kk, 85 m2">
           </div>
           <div class="field full">
-            <label for="f-timeline">Kdy přibližně zvažujete prodej?</label>
+            <label for="f-timeline">Kdy přibližně zvažujete prodej? <span style="font-weight:400;color:var(--text-muted)">(nepovinné)</span></label>
             <select id="f-timeline" name="Kdy zvažujete prodej">
               <option value="">— Vyberte —</option>
               <option value="Co nejdříve">Co nejdříve</option>
@@ -699,26 +788,6 @@ body {
     </div>
   </section>
 
-  <section class="process">
-    <h2>Jak to probíhá</h2>
-    <div class="steps">
-      <div class="step">
-        <span class="step-num">1</span>
-        <h3>Vyplníte formulář</h3>
-        <p>Pošlete základní údaje o nemovitosti a situaci.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">2</span>
-        <h3>Zavolám vám</h3>
-        <p>Co nejdříve vám dám orientační pohled na cenu a co ji ovlivňuje.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">3</span>
-        <h3>Projdeme možnosti</h3>
-        <p>Společně se podíváme, jaký postup dává smysl pro vaši situaci.</p>
-      </div>
-    </div>
-  </section>
   </main>
 
   <footer class="footer">
@@ -941,6 +1010,26 @@ body {
   input.addEventListener('blur', function() {
     setTimeout(closeSuggestions, 150);
   });
+})();
+
+
+// ── Fade-in on scroll ──
+(function() {
+  var targets = document.querySelectorAll('.fade-in');
+  if (!targets.length) return;
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    targets.forEach(function(t) { obs.observe(t); });
+  } else {
+    targets.forEach(function(t) { t.classList.add('visible'); });
+  }
 })();
 </script>
 </body>
