@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zásady zpracování osobních údajů | Miroslav Rind — REMAX</title>
+<meta name="description" content="Jak Bc. Miroslav Rind, realitní makléř REMAX Alfa 2, zpracovává osobní údaje z webu miroslavrind.cz a jaká máte práva.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://miroslavrind.cz/ochrana-osobnich-udaju.html">
+<meta name="theme-color" content="#DC1C2E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&display=swap">
+<style>
+:root {
+  --ground: #F7F7F8;
+  --surface: #FFFFFF;
+  --text: #1A1D26;
+  --text-mid: #3D4250;
+  --text-muted: #6B7080;
+  --accent: #DC1C2E;
+  --blue: #003DA5;
+  --blue-soft: rgba(0, 61, 165, 0.07);
+  --border: #DCDEE3;
+  --highlight: #EEF0F4;
+  --font-display: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+  --radius: 6px;
+  --max-w: 720px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: var(--max-w); margin: 0 auto; padding-inline: 16px; }
+.header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 24px 0 20px; border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; flex-direction: column; gap: 1px; text-decoration: none; }
+.brand-name { font-weight: 700; font-size: 17px; color: var(--text); letter-spacing: -0.01em; }
+.brand-role { font-size: 12.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.02em; font-weight: 600; }
+.remax-logo { height: 36px; width: auto; display: block; }
+.back {
+  display: inline-flex; align-items: center; gap: 6px; margin: 28px 0 0;
+  font-size: 14px; font-weight: 600; color: var(--blue); text-decoration: none;
+}
+.back:hover { text-decoration: underline; }
+h1 {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 6vw, 40px);
+  line-height: 1.15; letter-spacing: -0.02em; margin: 16px 0 8px;
+}
+.updated { font-size: 13px; color: var(--text-muted); margin: 0 0 28px; }
+.summary {
+  background: var(--blue-soft); border-left: 3px solid var(--blue);
+  border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; margin-bottom: 36px;
+  font-size: 14.5px; color: var(--text-mid);
+}
+.summary p { margin: 0; }
+section { margin-bottom: 36px; scroll-margin-top: 16px; }
+h2 {
+  font-family: var(--font-display); font-weight: 700; font-size: 24px;
+  letter-spacing: -0.01em; margin: 0 0 12px; color: var(--text);
+}
+h3 { font-size: 15px; font-weight: 700; margin: 22px 0 6px; color: var(--text); }
+p { margin: 0 0 12px; color: var(--text-mid); }
+ul { margin: 0 0 12px; padding-left: 20px; color: var(--text-mid); }
+li { margin-bottom: 6px; }
+a { color: var(--accent); }
+strong { color: var(--text); }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.card p:last-child { margin-bottom: 0; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--highlight); }
+th { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-muted); background: var(--ground); }
+tr:last-child td { border-bottom: none; }
+td { color: var(--text-mid); }
+td strong { display: block; margin-bottom: 2px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;
+  background: var(--accent); color: #FFF; font-weight: 700; font-size: 14px;
+  padding: 11px 20px; border-radius: var(--radius); text-decoration: none;
+}
+.btn:hover { background: #B81525; }
+.footer {
+  border-top: 1px solid var(--border); padding: 28px 0 48px; margin-top: 12px;
+  font-size: 13px; color: var(--text-muted);
+}
+.footer a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <a class="brand" href="index.html">
+      <span class="brand-name">Bc. Miroslav Rind, MBA, LL.M.</span>
+      <span class="brand-role">Realitní makléř</span>
+    </a>
+    <img class="remax-logo" alt="REMAX Alfa 2" src="logo.png">
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← Zpět na hlavní stránku</a>
+    <h1>Zásady zpracování osobních údajů</h1>
+    <p class="updated">Platné od 22. 10. 2026</p>
+
+    <div class="summary">
+      <p><strong>Ve zkratce:</strong> Údaje, které mi pošlete přes formulář nebo mi je sdělíte telefonem či zprávou, používám jen k tomu, abych vám připravil odhad a ozval se vám. Neprodávám je, nepředávám je dál pro reklamu a nepíšu vám spam. Měřicí a reklamní cookies se spouští jen s vaším souhlasem.</p>
+    </div>
+
+    <section id="spravce">
+      <h2>1. Kdo vaše údaje zpracovává</h2>
+      <div class="card">
+        <p><strong>Bc. Miroslav Rind, MBA, LL.M.</strong><br>
+        fyzická osoba podnikající, IČO: 17996783<br>
+        realitní makléř spolupracující se sítí REMAX Alfa 2<br>
+        kontaktní adresa: Koperníkova 4526/1, Brno</p>
+        <p>E-mail: <a href="mailto:miroslav.rind@re-max.cz">miroslav.rind@re-max.cz</a><br>
+        Telefon: <a href="tel:+420606446491">+420 606 446 491</a></p>
+      </div>
+      <p style="margin-top:12px">Pověřence pro ochranu osobních údajů nemám jmenovaného, se vším se můžete obracet přímo na mě.</p>
+    </section>
+
+    <section id="ucely">
+      <h2>2. Jaké údaje, proč a jak dlouho</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Účel</th><th>Údaje</th><th>Právní základ</th><th>Jak dlouho</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Vyřízení poptávky</strong>odhad ceny, odpověď na dotaz, domluva schůzky</td>
+              <td>jméno, telefon, e-mail; pokud je vyplníte i adresa a údaje o nemovitosti, plánovaný termín prodeje, poznámka</td>
+              <td>jednání o smlouvě na vaši žádost (čl. 6 odst. 1 písm. b) GDPR)</td>
+              <td>do vyřízení poptávky; pokud spolupráce nevznikne, nejdéle 12 měsíců od posledního kontaktu</td>
+            </tr>
+            <tr>
+              <td><strong>Spolupráce na prodeji nebo pronájmu</strong>pokud spolu uzavřeme smlouvu</td>
+              <td>identifikační a kontaktní údaje, údaje o nemovitosti a obchodu</td>
+              <td>plnění smlouvy a zákonné povinnosti, např. zákon o realitním zprostředkování, zákon proti praní špinavých peněz, účetní a daňové předpisy (čl. 6 odst. 1 písm. b) a c) GDPR)</td>
+              <td>po dobu spolupráce a poté po dobu, kterou stanoví zákon (zpravidla 10 let)</td>
+            </tr>
+            <tr>
+              <td><strong>Ochrana právních nároků</strong></td>
+              <td>komunikace a údaje související s poptávkou či obchodem</td>
+              <td>oprávněný zájem (čl. 6 odst. 1 písm. f) GDPR)</td>
+              <td>po dobu běhu promlčecích lhůt</td>
+            </tr>
+            <tr>
+              <td><strong>Měření návštěvnosti</strong>analytické cookies</td>
+              <td>pseudonymní údaje o návštěvě (zařízení, prohlížeč, přibližná poloha, prohlížené stránky)</td>
+              <td>váš souhlas (čl. 6 odst. 1 písm. a) GDPR)</td>
+              <td>do odvolání souhlasu, nejdéle podle platnosti cookies (obvykle do 2 let)</td>
+            </tr>
+            <tr>
+              <td><strong>Marketing a remarketing</strong>marketingové cookies</td>
+              <td>pseudonymní identifikátory a údaje o návštěvě a interakcích s reklamou</td>
+              <td>váš souhlas (čl. 6 odst. 1 písm. a) GDPR)</td>
+              <td>do odvolání souhlasu, nejdéle podle platnosti cookies</td>
+            </tr>
+            <tr>
+              <td><strong>Provoz a zabezpečení webu</strong></td>
+              <td>IP adresa a technické údaje v serverových záznamech, uložená volba cookies</td>
+              <td>oprávněný zájem na bezpečném a funkčním webu (čl. 6 odst. 1 písm. f) GDPR)</td>
+              <td>po nezbytně nutnou dobu podle poskytovatele hostingu</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:12px">Vyplnění formuláře je dobrovolné. Bez jména, telefonu a e-mailu se vám ale nemám jak ozvat. Ostatní pole jsou nepovinná. Automatizované rozhodování ani profilování s právními účinky neprovádím.</p>
+    </section>
+
+    <section id="prijemci">
+      <h2>3. Kdo další se k údajům může dostat</h2>
+      <p>Údaje nikomu neprodávám. Ke zpracování využívám tyto ověřené služby, které s údaji pracují jen v rozsahu nutném pro danou funkci:</p>
+      <ul>
+        <li><strong>FormSubmit (formsubmit.co)</strong>: doručení zprávy z formuláře na můj e-mail.</li>
+        <li><strong>REMAX Czech Republic</strong>: provoz pracovní e-mailové schránky. Pokud spolu uzavřeme smlouvu, pak i kancelář REMAX Alfa 2 v rozsahu nutném pro realizaci obchodu.</li>
+        <li><strong>GitHub, Inc.</strong>: hosting webu (serverové záznamy).</li>
+        <li><strong>Seznam.cz, a.s.</strong>: mapa a našeptávač adres (Mapy.com), s vaším souhlasem měření reklamy Sklik.</li>
+        <li><strong>Google Ireland Limited</strong>: písma webu (Google Fonts), s vaším souhlasem Google Tag Manager, Google Analytics a Google Ads.</li>
+        <li><strong>WhatsApp Ireland Limited</strong>: pouze pokud mi sami napíšete přes WhatsApp.</li>
+      </ul>
+      <p>Některé z těchto služeb mohou údaje zpracovávat i mimo Evropskou unii, zejména v USA. Předání probíhá na základě rámce EU–USA pro ochranu osobních údajů (Data Privacy Framework) nebo standardních smluvních doložek schválených Evropskou komisí. Údaje mohu předat i orgánům veřejné moci, pokud mi to ukládá zákon.</p>
+    </section>
+
+    <section id="cookies">
+      <h2>4. Cookies</h2>
+      <p>Cookies jsou malé soubory, které si web ukládá do vašeho prohlížeče.</p>
+      <h3>Nezbytné (vždy zapnuté)</h3>
+      <p>Uložení vaší volby v cookie liště (klíč <code>mr_cookie_consent_v1</code> v úložišti prohlížeče). Bez nich by se vás web ptal pořád dokola.</p>
+      <h3>Analytické (jen se souhlasem)</h3>
+      <p>Google Tag Manager a Google Analytics. Pomáhají mi pochopit, kolik lidí web navštíví a co na něm funguje.</p>
+      <h3>Marketingové (jen se souhlasem)</h3>
+      <p>Seznam Sklik a Google Ads. Měří, jestli reklama funguje, a umožňují zobrazit reklamu lidem, kteří už web navštívili.</p>
+      <p>Dokud souhlas neudělíte, tyto nástroje se vůbec nenačtou. Souhlas můžete kdykoliv změnit nebo odvolat:</p>
+      <a class="btn" href="index.html#nastaveni-cookies">Změnit nastavení cookies</a>
+    </section>
+
+    <section id="prava">
+      <h2>5. Vaše práva</h2>
+      <p>V souvislosti se zpracováním máte právo:</p>
+      <ul>
+        <li>získat přístup ke svým údajům a informace o tom, jak s nimi pracuji,</li>
+        <li>na opravu nepřesných údajů,</li>
+        <li>na výmaz údajů, pokud už není důvod je zpracovávat,</li>
+        <li>na omezení zpracování,</li>
+        <li>na přenositelnost údajů,</li>
+        <li>vznést námitku proti zpracování na základě oprávněného zájmu,</li>
+        <li>kdykoliv odvolat souhlas, aniž by tím bylo dotčeno zpracování před odvoláním.</li>
+      </ul>
+      <p>Stačí mi napsat na <a href="mailto:miroslav.rind@re-max.cz">miroslav.rind@re-max.cz</a> nebo zavolat. Odpovím bez zbytečného odkladu, nejpozději do jednoho měsíce.</p>
+      <p>Pokud budete mít pocit, že s údaji nezacházím správně, můžete podat stížnost u <strong>Úřadu pro ochranu osobních údajů</strong>, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Budu ale rád, když se nejdřív ozvete mně a vyřešíme to spolu.</p>
+    </section>
+
+    <section id="zmeny">
+      <h2>6. Změny těchto zásad</h2>
+      <p>Zásady můžu čas od času aktualizovat, například při změně používaných služeb. Aktuální verze je vždy na této stránce a u ní datum, od kdy platí.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    &copy; <script>document.write(new Date().getFullYear())</script> Bc. Miroslav Rind, MBA, LL.M. · <a href="index.html">miroslavrind.cz</a>
+  </footer>
+
+</div>
+</body>
+</html>
