@@ -2,21 +2,59 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TTXR4G3B');</script>
-<!-- End Google Tag Manager -->
-<!-- Seznam Sklik -->
-<script src="https://l.seznam.cz/sul.js?id=hnfxevljgwnesec10t3b8exf"></script>
+<!-- Consent + měření (GTM a Sklik se načtou až po souhlasu s cookies) -->
 <script>
-  if (typeof window.SEM === "function") {
-    window.SEM('track', 'PageView')
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag('consent', 'default', {
+  ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+  analytics_storage: 'denied', functionality_storage: 'granted', security_storage: 'granted'
+});
+(function() {
+  var KEY = 'mr_cookie_consent_v1';
+  var loaded = { gtm: false, sklik: false };
+  function loadGTM() {
+    if (loaded.gtm) return; loaded.gtm = true;
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TTXR4G3B');
   }
+  function loadSklik() {
+    if (loaded.sklik) return; loaded.sklik = true;
+    var s = document.createElement('script');
+    s.src = 'https://l.seznam.cz/sul.js?id=hnfxevljgwnesec10t3b8exf';
+    s.async = true;
+    s.onload = function() { if (typeof window.SEM === 'function') { window.SEM('track', 'PageView'); } };
+    document.head.appendChild(s);
+  }
+  function read() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
+  function apply(c) {
+    gtag('consent', 'update', {
+      analytics_storage: c.analytics ? 'granted' : 'denied',
+      ad_storage: c.marketing ? 'granted' : 'denied',
+      ad_user_data: c.marketing ? 'granted' : 'denied',
+      ad_personalization: c.marketing ? 'granted' : 'denied'
+    });
+    if (c.analytics || c.marketing) loadGTM();
+    if (c.marketing) loadSklik();
+  }
+  window.mrConsent = {
+    get: read,
+    save: function(c) {
+      var prev = read();
+      var data = { analytics: !!c.analytics, marketing: !!c.marketing, ts: new Date().toISOString() };
+      try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+      // Odvolání dříve uděleného souhlasu → reload, aby se už načtené skripty zahodily
+      if (prev && ((prev.analytics && !data.analytics) || (prev.marketing && !data.marketing))) { location.reload(); return; }
+      apply(data);
+    }
+  };
+  var saved = read();
+  if (saved) apply(saved);
+})();
 </script>
-<!-- End Seznam Sklik -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Miroslav Rind — Odhad ceny nemovitosti Brno | REMAX</title>
 <meta name="description" content="Bezplatný orientační odhad ceny vaší nemovitosti v Brně — Černá Pole, Veveří a okolí. Miroslav Rind, realitní makléř REMAX Alfa 2.">
@@ -30,9 +68,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://miroslavrind.cz">
 <meta property="og:locale" content="cs_CZ">
 <meta property="og:site_name" content="Miroslav Rind — REMAX">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://miroslavrind.cz/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bc. Miroslav Rind, MBA, LL.M. — realitní makléř REMAX Alfa 2, odhad ceny nemovitosti">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Odhad ceny nemovitosti Brno — Miroslav Rind | REMAX">
 <meta name="twitter:description" content="Bezplatný orientační odhad ceny vaší nemovitosti v Brně.">
+<meta name="twitter:image" content="https://miroslavrind.cz/og-image.jpg">
 <meta name="theme-color" content="#DC1C2E">
 <meta name="author" content="Bc. Miroslav Rind, MBA, LL.M.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -795,6 +838,137 @@ body {
     padding-bottom: 56.25%;
   }
 }
+
+section[id] { scroll-margin-top: 16px; }
+/* ── FAQ ── */
+.faq { margin-bottom: 56px; }
+.faq h2 {
+  font-family: var(--font-display); font-weight: 700; font-size: 26px;
+  letter-spacing: -0.01em; margin: 0 0 20px; color: var(--text);
+}
+.faq-list { border-top: 1px solid var(--border); }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item summary {
+  list-style: none; cursor: pointer; padding: 18px 40px 18px 0; position: relative;
+  font-weight: 700; font-size: 15px; color: var(--text);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: ''; position: absolute; right: 6px; top: 50%; width: 9px; height: 9px;
+  border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent);
+  transform: translateY(-70%) rotate(45deg); transition: transform 0.2s ease;
+}
+.faq-item[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+.faq-item summary:hover { color: var(--accent); }
+.faq-item p { margin: 0 0 18px; font-size: 14.5px; line-height: 1.7; color: var(--text-mid); max-width: 640px; }
+.faq-more { margin: 20px 0 0; font-size: 14px; color: var(--text-muted); }
+.faq-more a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.faq-more a:hover { text-decoration: underline; }
+
+.privacy-note a { color: var(--text-muted); text-decoration: underline; white-space: nowrap; }
+.privacy-note a:hover { color: var(--accent); }
+.cookie-modal-intro { font-size: 13.5px; color: var(--text-muted); margin: 0 0 6px; line-height: 1.55; }
+.cookie-modal-intro a { color: var(--blue); }
+a.footer-link { color: inherit; }
+/* ── Footer link ── */
+.footer-link {
+  background: none; border: none; padding: 0; font: inherit; color: inherit;
+  cursor: pointer; text-decoration: underline;
+}
+.footer-link:hover { color: var(--accent); }
+
+/* ── WhatsApp (desktop) ── */
+.wa-float {
+  position: fixed; right: 20px; bottom: 20px; z-index: 80;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #1FA855; color: #FFF; text-decoration: none;
+  font-weight: 700; font-size: 14px; padding: 12px 18px; border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18); transition: transform 0.15s ease, background 0.15s;
+}
+.wa-float:hover { background: #178A45; transform: translateY(-2px); }
+.wa-float svg { width: 20px; height: 20px; }
+
+/* ── Sticky lišta (mobil) ── */
+.mobile-bar { display: none; }
+@media (max-width: 620px) {
+  .wa-float { display: none; }
+  .mobile-bar {
+    display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 8px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: var(--surface); border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+    transform: translateY(110%); transition: transform 0.25s ease;
+  }
+  .mobile-bar.show { transform: translateY(0); }
+  body.cookie-open .mobile-bar { transform: translateY(110%); }
+  .mb-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 44px; border-radius: var(--radius); border: 1px solid var(--border);
+    font-weight: 700; font-size: 13.5px; color: var(--text); text-decoration: none; background: var(--surface);
+  }
+  .mb-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .mb-wa { color: #178A45; border-color: rgba(31,168,85,0.4); }
+  .mb-primary { background: var(--accent); border-color: var(--accent); color: #FFF; }
+  body { padding-bottom: 72px; }
+}
+
+/* ── Cookie lišta ── */
+.cookie-banner {
+  position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 100;
+  max-width: 860px; margin: 0 auto;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.18); padding: 18px 20px;
+}
+.cookie-banner[hidden], .cookie-modal[hidden] { display: none; }
+.cookie-inner { display: flex; align-items: center; gap: 20px; }
+.cookie-text { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--text-mid); flex: 1; }
+.cookie-text strong { color: var(--text); margin-right: 4px; }
+.cookie-link {
+  background: none; border: none; padding: 0; font: inherit; font-weight: 600;
+  color: var(--blue); text-decoration: underline; cursor: pointer;
+}
+.cookie-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.cookie-btn {
+  font-family: var(--font-body); font-weight: 700; font-size: 14px;
+  padding: 11px 20px; border-radius: var(--radius); cursor: pointer;
+  border: 1.5px solid var(--border); background: var(--surface); color: var(--text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.cookie-btn:hover { border-color: var(--text-muted); }
+.cookie-btn-primary { background: var(--accent); border-color: var(--accent); color: #FFF; }
+.cookie-btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.cookie-modal {
+  position: fixed; inset: 0; z-index: 110; background: rgba(26,29,38,0.55);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.cookie-modal-box {
+  background: var(--surface); border-radius: 10px; max-width: 520px; width: 100%;
+  padding: 26px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: calc(100vh - 32px); overflow-y: auto;
+}
+.cookie-modal-box h3 { font-family: var(--font-display); font-size: 24px; margin: 0 0 12px; color: var(--text); }
+.cookie-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--highlight); }
+.cookie-row strong { display: block; font-size: 14.5px; color: var(--text); }
+.cookie-row span { display: block; font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 2px; }
+.switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+.switch input:disabled { cursor: not-allowed; }
+.switch span { position: absolute; inset: 0; background: var(--border); border-radius: 999px; transition: background 0.2s; }
+.switch span::before {
+  content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px;
+  background: #FFF; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.switch input:checked + span { background: var(--blue); }
+.switch input:checked + span::before { transform: translateX(20px); }
+.switch input:disabled + span { opacity: 0.6; }
+.switch input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+.cookie-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
+@media (max-width: 620px) {
+  .cookie-banner { left: 10px; right: 10px; bottom: 10px; padding: 16px; }
+  .cookie-inner { flex-direction: column; align-items: stretch; gap: 14px; }
+  .cookie-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .cookie-modal-actions { display: grid; grid-template-columns: 1fr 1fr; }
+}
 </style>
 <script type="application/ld+json">
 {
@@ -820,12 +994,72 @@ body {
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Kolik stojí odhad ceny nemovitosti?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Orientační odhad je zdarma a k ničemu vás nezavazuje. Pošlete mi základní údaje přes formulář nebo zavolejte, projdu si data o skutečných prodejích v okolí a ozvu se vám s cenovým rozpětím a s tím, co cenu vaší nemovitosti nejvíc ovlivňuje."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jak dlouho trvá prodej bytu v Brně?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nejvíc záleží na správně nastavené ceně, stavu bytu a lokalitě. Realisticky naceněný byt v dobré lokalitě se umí prodat během několika týdnů, nadhodnocený klidně visí v inzerci měsíce a nakonec se prodá levněji. Proto vždy začínám poctivým odhadem. Samotný převod na katastru pak po podpisu smlouvy obvykle trvá zhruba měsíc."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Proč prodávat přes makléře a ne sám?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kvůli ceně, bezpečí a času. Správný marketing a vyjednávání obvykle přinesou vyšší cenu, než kolik stojí služby makléře. Ohlídám smlouvy, bezpečnou úschovu kupní ceny i to, jestli má kupec skutečně zajištěné financování. A prohlídky, telefonáty a papírování nechávám na sobě."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jak probíhá spolupráce po odhadu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pokud budete chtít pokračovat, potkáme se osobně u vás nebo v kanceláři. Projdeme nemovitost, strategii prodeje i marketing a v klidu probereme podmínky spolupráce, abyste přesně věděli, do čeho jdete. Pořád bez závazku, rozhodnutí je jen na vás."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jaké dokumenty budu k prodeji potřebovat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hlavně doklad, jak jste nemovitost nabyli (kupní nebo darovací smlouva, rozhodnutí o dědictví), průkaz energetické náročnosti budovy (PENB) a u bytu potvrzení od SVJ nebo družstva o tom, že nemáte nedoplatky. Výpis z katastru a většinu dalšího zařídím já a se vším ostatním vám poradím."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Můžu prodat nemovitost, na které je hypotéka?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ano, je to úplně běžné. Část kupní ceny se použije na doplacení hypotéky, banka pak vydá potvrzení o splacení a zástava se z katastru vymaže. Celé se to řeší přes bezpečnou úschovu, takže jsou chráněni kupující i vy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Působíte jen v Brně?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Působím v Brně a na Prostějovsku. Pomůžu vám s prodejem bytu, domu i komerčních prostor a stejně tak s hledáním nájemce, pokud nemovitost chcete pronajmout."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TTXR4G3B"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <div class="page">
 
@@ -915,11 +1149,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p><strong>Od podpisu kupní smlouvy Vás dělí pouze jedno rozhodnutí.</strong> Ozvěte se mi a o všechno ostatní se postarám.</p>
     </div>
     <div class="diplomas">
-      <a href="diploma-mba.jpg" target="_blank" class="diploma-card">
+      <a href="diploma-mba.jpg" target="_blank" rel="noopener" class="diploma-card">
         <img src="diploma-mba.jpg" alt="Diplom MBA Real Estate — Miroslav Rind" loading="lazy">
         <div class="diploma-card-label">MBA — Real Estate</div>
       </a>
-      <a href="diploma-llm.jpg" target="_blank" class="diploma-card">
+      <a href="diploma-llm.jpg" target="_blank" rel="noopener" class="diploma-card">
         <img src="diploma-llm.jpg" alt="Diplom LL.M. Business Law — Miroslav Rind" loading="lazy">
         <div class="diploma-card-label">LL.M. — Business Law</div>
       </a>
@@ -1013,7 +1247,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="submit-row">
             <button type="submit" class="submit-btn" id="submitBtn">Odeslat poptávku</button>
           </div>
-          <p class="privacy-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Vaše údaje použiji pouze k přípravě odhadu. Žádný spam.</p>
+          <p class="privacy-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Vaše údaje použiji pouze k přípravě odhadu. Žádný spam. <a href="ochrana-osobnich-udaju.html">Zásady zpracování osobních údajů</a></p>
         </div>
       </form>
     </div>
@@ -1035,6 +1269,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </a>
       </div>
     </div>
+  </section>
+
+  <section class="faq fade-in" id="faq">
+    <h2>Časté otázky</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Kolik stojí odhad ceny nemovitosti?</summary>
+        <p>Orientační odhad je zdarma a k ničemu vás nezavazuje. Pošlete mi základní údaje přes formulář nebo zavolejte, projdu si data o skutečných prodejích v okolí a ozvu se vám s cenovým rozpětím a s tím, co cenu vaší nemovitosti nejvíc ovlivňuje.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Jak dlouho trvá prodej bytu v Brně?</summary>
+        <p>Nejvíc záleží na správně nastavené ceně, stavu bytu a lokalitě. Realisticky naceněný byt v dobré lokalitě se umí prodat během několika týdnů, nadhodnocený klidně visí v inzerci měsíce a nakonec se prodá levněji. Proto vždy začínám poctivým odhadem. Samotný převod na katastru pak po podpisu smlouvy obvykle trvá zhruba měsíc.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Proč prodávat přes makléře a ne sám?</summary>
+        <p>Kvůli ceně, bezpečí a času. Správný marketing a vyjednávání obvykle přinesou vyšší cenu, než kolik stojí služby makléře. Ohlídám smlouvy, bezpečnou úschovu kupní ceny i to, jestli má kupec skutečně zajištěné financování. A prohlídky, telefonáty a papírování nechávám na sobě.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Jak probíhá spolupráce po odhadu?</summary>
+        <p>Pokud budete chtít pokračovat, potkáme se osobně u vás nebo v kanceláři. Projdeme nemovitost, strategii prodeje i marketing a v klidu probereme podmínky spolupráce, abyste přesně věděli, do čeho jdete. Pořád bez závazku, rozhodnutí je jen na vás.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Jaké dokumenty budu k prodeji potřebovat?</summary>
+        <p>Hlavně doklad, jak jste nemovitost nabyli (kupní nebo darovací smlouva, rozhodnutí o dědictví), průkaz energetické náročnosti budovy (PENB) a u bytu potvrzení od SVJ nebo družstva o tom, že nemáte nedoplatky. Výpis z katastru a většinu dalšího zařídím já a se vším ostatním vám poradím.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Můžu prodat nemovitost, na které je hypotéka?</summary>
+        <p>Ano, je to úplně běžné. Část kupní ceny se použije na doplacení hypotéky, banka pak vydá potvrzení o splacení a zástava se z katastru vymaže. Celé se to řeší přes bezpečnou úschovu, takže jsou chráněni kupující i vy.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Působíte jen v Brně?</summary>
+        <p>Působím v Brně a na Prostějovsku. Pomůžu vám s prodejem bytu, domu i komerčních prostor a stejně tak s hledáním nájemce, pokud nemovitost chcete pronajmout.</p>
+      </details>
+    </div>
+    <p class="faq-more">Máte jinou otázku? <a href="tel:+420606446491">Zavolejte mi</a> nebo <a href="#formular">napište přes formulář</a>.</p>
   </section>
 
   </main>
@@ -1077,9 +1346,53 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
       <span class="footer-detail">Černá Pole · Veveří · Brno</span>
     </div>
-    <div class="footer-right">&copy; <script>document.write(new Date().getFullYear())</script></div>
+    <div class="footer-right">&copy; <script>document.write(new Date().getFullYear())</script> · <a class="footer-link" href="ochrana-osobnich-udaju.html">Ochrana osobních údajů</a> · <button type="button" class="footer-link" id="cookieSettingsLink">Nastavení cookies</button></div>
   </footer>
 
+</div>
+
+<!-- Plovoucí WhatsApp (desktop) -->
+<a href="https://wa.me/420606446491?text=Dobr%C3%BD%20den%2C%20m%C3%A1m%20z%C3%A1jem%20o%20odhad%20ceny%20nemovitosti." class="wa-float" target="_blank" rel="noopener" aria-label="Napsat na WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 01-12.3 7.5L3 21l2-5.5A8.4 8.4 0 1121 11.5z"/></svg><span>WhatsApp</span></a>
+
+<!-- Sticky lišta (mobil) -->
+<nav class="mobile-bar" id="mobileBar" aria-label="Rychlý kontakt">
+  <a href="tel:+420606446491" class="mb-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 7.2a8.5 8.5 0 002.5 2.5l1.3-1a.7.7 0 01.7 0l2.4 1.2a.7.7 0 01.4.7 3.2 3.2 0 01-3.2 2.9C5.6 13.5 2.5 10.4 2.5 6.4a3.2 3.2 0 012.9-3.2.7.7 0 01.7.4l1.2 2.4a.7.7 0 010 .7z"/></svg>Zavolat</a>
+  <a href="https://wa.me/420606446491?text=Dobr%C3%BD%20den%2C%20m%C3%A1m%20z%C3%A1jem%20o%20odhad%20ceny%20nemovitosti." class="mb-btn mb-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 01-12.3 7.5L3 21l2-5.5A8.4 8.4 0 1121 11.5z"/></svg>WhatsApp</a>
+  <a href="#formular" class="mb-btn mb-primary">Odhad zdarma</a>
+</nav>
+
+<!-- Cookie lišta -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Souhlas s cookies" hidden>
+  <div class="cookie-inner">
+    <p class="cookie-text"><strong>Cookies</strong> Web používá cookies k měření návštěvnosti a k zobrazování relevantní reklamy. Nezbytné cookies jsou zapnuté vždy, ostatní jen s vaším souhlasem. <button type="button" class="cookie-link" data-cookie="settings">Nastavení</button> · <a class="cookie-link" href="ochrana-osobnich-udaju.html#cookies">Více informací</a></p>
+    <div class="cookie-actions">
+      <button type="button" class="cookie-btn cookie-btn-secondary" data-cookie="reject">Odmítnout</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" data-cookie="accept">Přijmout vše</button>
+    </div>
+  </div>
+</div>
+
+<div class="cookie-modal" id="cookieModal" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle" hidden>
+  <div class="cookie-modal-box">
+    <h3 id="cookieModalTitle">Nastavení cookies</h3>
+    <p class="cookie-modal-intro">Vyberte, které cookies povolíte. Podrobnosti najdete v <a href="ochrana-osobnich-udaju.html#cookies">zásadách zpracování osobních údajů</a>.</p>
+    <div class="cookie-row">
+      <div><strong>Nezbytné</strong><span>Zajišťují základní fungování webu a uložení vaší volby. Nelze vypnout.</span></div>
+      <label class="switch"><input type="checkbox" checked disabled><span></span></label>
+    </div>
+    <div class="cookie-row">
+      <div><strong>Analytické</strong><span>Anonymní měření návštěvnosti (Google Tag Manager / Analytics), abych věděl, co na webu funguje.</span></div>
+      <label class="switch"><input type="checkbox" id="ckAnalytics"><span></span></label>
+    </div>
+    <div class="cookie-row">
+      <div><strong>Marketingové</strong><span>Měření účinnosti reklam a remarketing (Seznam Sklik, Google Ads).</span></div>
+      <label class="switch"><input type="checkbox" id="ckMarketing"><span></span></label>
+    </div>
+    <div class="cookie-modal-actions">
+      <button type="button" class="cookie-btn cookie-btn-secondary" data-cookie="save">Uložit výběr</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" data-cookie="accept">Přijmout vše</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1121,6 +1434,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   function showSuccess() {
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({ event: 'generate_lead', form: 'odhad_ceny' });
     formView.hidden = true;
     successView.hidden = false;
     successView.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1305,6 +1620,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     targets.forEach(function(t) { t.classList.add('visible'); });
   }
 })();
+
+// ── Cookie lišta ──
+(function() {
+  var banner = document.getElementById('cookieBanner');
+  var modal = document.getElementById('cookieModal');
+  var ckA = document.getElementById('ckAnalytics');
+  var ckM = document.getElementById('ckMarketing');
+  if (!banner || !modal || !window.mrConsent) return;
+  function closeAll() { banner.hidden = true; modal.hidden = true; document.body.classList.remove('cookie-open'); }
+  function openSettings() {
+    var c = window.mrConsent.get() || {};
+    ckA.checked = !!c.analytics; ckM.checked = !!c.marketing;
+    modal.hidden = false;
+  }
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-cookie]');
+    if (btn) {
+      var a = btn.getAttribute('data-cookie');
+      if (a === 'accept') { window.mrConsent.save({ analytics: true, marketing: true }); closeAll(); }
+      else if (a === 'reject') { window.mrConsent.save({ analytics: false, marketing: false }); closeAll(); }
+      else if (a === 'save') { window.mrConsent.save({ analytics: ckA.checked, marketing: ckM.checked }); closeAll(); }
+      else if (a === 'settings') { openSettings(); }
+      return;
+    }
+    if (e.target === modal) { modal.hidden = true; }
+  });
+  var link = document.getElementById('cookieSettingsLink');
+  if (link) link.addEventListener('click', openSettings);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && !modal.hidden) modal.hidden = true; });
+  if (!window.mrConsent.get()) { banner.hidden = false; document.body.classList.add('cookie-open'); }
+  if (location.hash === '#nastaveni-cookies') { openSettings(); try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+})();
+
+// ── Sticky mobilní lišta: ukázat po odscrollování z hera, schovat u formuláře ──
+(function() {
+  var bar = document.getElementById('mobileBar');
+  var hero = document.querySelector('.hero');
+  var form = document.getElementById('formular');
+  if (!bar || !hero || !form || !('IntersectionObserver' in window)) { if (bar) bar.classList.add('show'); return; }
+  var heroVisible = true, formVisible = false;
+  function update() { bar.classList.toggle('show', !heroVisible && !formVisible); }
+  new IntersectionObserver(function(en) { heroVisible = en[0].isIntersecting; update(); }, { threshold: 0 }).observe(hero);
+  new IntersectionObserver(function(en) { formVisible = en[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(form);
+})();
+
+// ── Měření kliknutí na telefon / WhatsApp / e-mail ──
+document.addEventListener('click', function(e) {
+  var a = e.target.closest('a[href]');
+  if (!a) return;
+  var h = a.getAttribute('href');
+  var ev = h.indexOf('tel:') === 0 ? 'click_call' : h.indexOf('wa.me') !== -1 ? 'click_whatsapp' : h.indexOf('mailto:') === 0 ? 'click_email' : null;
+  if (ev) { window.dataLayer = window.dataLayer || []; dataLayer.push({ event: ev }); }
+});
 </script>
 </body>
 </html>
