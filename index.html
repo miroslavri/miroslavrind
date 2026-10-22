@@ -683,33 +683,117 @@ body {
   .hero-cta-group { justify-content: center; }
 }
 
-/* ── Map section ── */
-.map-section {
+/* ── Diplomas gallery ── */
+.diplomas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 28px;
+}
+.diploma-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.diploma-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+}
+.diploma-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.diploma-card-label {
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-align: center;
+  border-top: 1px solid var(--highlight);
+}
+@media (max-width: 520px) {
+  .diplomas { grid-template-columns: 1fr; }
+}
+
+/* ── Bottom two-column (map + REMAX info) ── */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
   margin-bottom: 56px;
+  align-items: start;
 }
-.map-section h2 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 26px;
-  letter-spacing: -0.01em;
-  margin: 0 0 20px;
-  color: var(--text);
-}
-.map-wrap {
+.bottom-grid .map-wrap {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
+  padding-bottom: 75%;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
 }
-.map-wrap iframe {
+.bottom-grid .map-wrap iframe {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   border: none;
+}
+.remax-info {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+}
+.remax-info h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+.remax-info p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-mid);
+  margin: 0 0 14px;
+}
+.remax-info p:last-child { margin-bottom: 0; }
+.remax-highlights {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.remax-highlight {
+  text-align: center;
+  flex: 1;
+  min-width: 80px;
+}
+.remax-highlight-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--accent);
+  line-height: 1.2;
+}
+.remax-highlight-label {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+@media (max-width: 680px) {
+  .bottom-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .bottom-grid .map-wrap {
+    padding-bottom: 56.25%;
+  }
 }
 </style>
 <script type="application/ld+json">
@@ -830,9 +914,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p>Působím v Brně a na Prostějovsku. Ať prodáváte byt, dům, nebo komerční prostory, ať hledáte kupce, nebo nájemce, jsem tu od toho, abych Vám pomohl.</p>
       <p><strong>Od podpisu kupní smlouvy Vás dělí pouze jedno rozhodnutí.</strong> Ozvěte se mi a o všechno ostatní se postarám.</p>
     </div>
-    <div class="about-credential">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-      Diplom z mezinárodního studia MBA v oblasti Real Estate
+    <div class="diplomas">
+      <a href="diploma-mba.jpg" target="_blank" class="diploma-card">
+        <img src="diploma-mba.jpg" alt="Diplom MBA Real Estate — Miroslav Rind" loading="lazy">
+        <div class="diploma-card-label">MBA — Real Estate</div>
+      </a>
+      <a href="diploma-llm.jpg" target="_blank" class="diploma-card">
+        <img src="diploma-llm.jpg" alt="Diplom LL.M. Business Law — Miroslav Rind" loading="lazy">
+        <div class="diploma-card-label">LL.M. — Business Law</div>
+      </a>
     </div>
     <div class="about-cta">
       <a href="#formular" class="hero-cta">
@@ -950,10 +1040,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </main>
 
 
-  <section class="map-section fade-in">
-    <h2>Kde nás najdete</h2>
-    <div class="map-wrap">
-      <iframe src="https://mapy.com/cs/zakladni?x=16.6378755556&y=49.2017463889&z=17&source=firm&id=14047517&widgetFirmy=14047517&frame=1" loading="lazy" allowfullscreen></iframe>
+  <section class="bottom-grid fade-in">
+    <div>
+      <div class="map-wrap">
+        <iframe src="https://mapy.com/cs/zakladni?x=16.6378755556&y=49.2017463889&z=17&source=firm&id=14047517&widgetFirmy=14047517&frame=1" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="remax-info">
+      <h3>REMAX Alfa 2</h3>
+      <div class="remax-highlights">
+        <div class="remax-highlight">
+          <span class="remax-highlight-num">#1</span>
+          <span class="remax-highlight-label">pobočka v ČR</span>
+        </div>
+        <div class="remax-highlight">
+          <span class="remax-highlight-num">110+</span>
+          <span class="remax-highlight-label">zemí po světě</span>
+        </div>
+        <div class="remax-highlight">
+          <span class="remax-highlight-num">Brno</span>
+          <span class="remax-highlight-label">& Prostějovsko</span>
+        </div>
+      </div>
+      <p>Působím pod hlavičkou největší pobočky REMAX v České republice. To pro vás znamená přístup k&nbsp;mezinárodnímu know-how, moderním marketingovým nástrojům a&nbsp;databázi prověřených kupců.</p>
+      <p>V praxi to vypadá jednoduše — vaše nemovitost se dostane ke správným lidem, za nejvyšší možnou cenu a&nbsp;bez zbytečných komplikací. Celý proces vedu osobně od prvního telefonátu až po předání klíčů.</p>
     </div>
   </section>
 
