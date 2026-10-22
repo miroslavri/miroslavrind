@@ -26,7 +26,16 @@ gtag('consent', 'default', {
     var s = document.createElement('script');
     s.src = 'https://l.seznam.cz/sul.js?id=hnfxevljgwnesec10t3b8exf';
     s.async = true;
-    s.onload = function() { if (typeof window.SEM === 'function') { window.SEM('track', 'PageView'); } };
+    s.onload = function() {
+      if (typeof window.SEM !== 'function') return;
+      var c = read() || {};
+      window.SEM('updateConsent', { consent_mode: {
+        ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted',
+        functionality_storage: 'granted', analytics_storage: c.analytics ? 'granted' : 'denied'
+      } });
+      window.SEM('track', 'PageView');
+      while (sklikQueue.length) window.SEM('track', sklikQueue.shift());
+    };
     document.head.appendChild(s);
   }
   function read() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
@@ -40,6 +49,18 @@ gtag('consent', 'default', {
     if (c.analytics || c.marketing) loadGTM();
     if (c.marketing) loadSklik();
   }
+  // Měření konverzí: pošle událost do GTM a odpovídající událost do Skliku
+  var sklikQueue = [];
+  var SKLIK_MAP = { generate_lead: 'Lead', click_call: 'Contact', click_whatsapp: 'Contact', click_email: 'Contact' };
+  window.mrTrack = function(name, params) {
+    var ev = { event: name };
+    if (params) for (var k in params) ev[k] = params[k];
+    window.dataLayer.push(ev);
+    if (SKLIK_MAP[name]) {
+      if (typeof window.SEM === 'function') { try { window.SEM('track', SKLIK_MAP[name]); } catch (e) {} }
+      else sklikQueue.push(SKLIK_MAP[name]);
+    }
+  };
   window.mrConsent = {
     get: read,
     save: function(c) {
@@ -851,6 +872,56 @@ section[id] { scroll-margin-top: 16px; }
 .remax-link svg { width: 15px; height: 15px; color: var(--accent); }
 .remax-link:hover { color: var(--accent); }
 .remax-highlight-label { display: block; }
+
+/* ── Okno s telefonem ── */
+.call-modal {
+  position: fixed; inset: 0; z-index: 105; background: rgba(26,29,38,0.55);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.call-modal[hidden] { display: none; }
+body.call-open { overflow: hidden; }
+body.call-open .mobile-bar { transform: translateY(110%); }
+.call-box {
+  position: relative; background: var(--surface); border-radius: 12px; width: 100%; max-width: 380px;
+  padding: 30px 26px 24px; text-align: center; box-shadow: 0 24px 70px rgba(0,0,0,0.3);
+  animation: cookieIn 0.25s ease;
+}
+.call-close {
+  position: absolute; top: 10px; right: 12px; width: 36px; height: 36px; border: none; background: none;
+  font-size: 26px; line-height: 1; color: var(--text-muted); cursor: pointer; border-radius: 50%;
+}
+.call-close:hover { background: var(--highlight); color: var(--text); }
+.call-icon {
+  width: 52px; height: 52px; border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;
+}
+.call-icon svg { width: 24px; height: 24px; }
+.call-box h3 { font-family: var(--font-display); font-size: 26px; margin: 0 0 4px; color: var(--text); }
+.call-sub { margin: 0 0 18px; font-size: 14px; color: var(--text-muted); }
+.call-number {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  background: var(--ground); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 12px 12px; margin-bottom: 16px;
+}
+.call-number span { white-space: nowrap; font-size: 24px; font-weight: 700; letter-spacing: 0.01em; color: var(--text); user-select: all; font-variant-numeric: tabular-nums; }
+.call-copy {
+  font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--blue);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 8px 12px; cursor: pointer; white-space: nowrap;
+}
+.call-copy:hover { border-color: var(--blue); }
+.call-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.call-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 46px; border-radius: var(--radius); font-weight: 700; font-size: 14.5px; text-decoration: none;
+  border: 1.5px solid transparent;
+}
+.call-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+.call-btn-primary { background: var(--accent); color: #FFF; }
+.call-btn-primary:hover { background: var(--accent-hover); }
+.call-btn-wa { background: var(--surface); color: #178A45; border-color: rgba(31,168,85,0.45); }
+.call-btn-wa:hover { background: rgba(31,168,85,0.06); }
+@media (max-width: 380px) { .call-actions { grid-template-columns: 1fr; } }
 /* ── FAQ ── */
 .faq { margin-bottom: 56px; }
 .faq h2 {
@@ -1379,6 +1450,25 @@ body.cookie-open { overflow: hidden; }
   <a href="#formular" class="mb-btn mb-primary">Odhad zdarma</a>
 </nav>
 
+
+<!-- Okno s telefonem (místo okamžitého otevření aplikace) -->
+<div class="call-modal" id="callModal" role="dialog" aria-modal="true" aria-labelledby="callModalTitle" hidden>
+  <div class="call-box">
+    <button type="button" class="call-close" id="callClose" aria-label="Zavřít">&times;</button>
+    <div class="call-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 7.2a8.5 8.5 0 002.5 2.5l1.3-1a.7.7 0 01.7 0l2.4 1.2a.7.7 0 01.4.7 3.2 3.2 0 01-3.2 2.9C5.6 13.5 2.5 10.4 2.5 6.4a3.2 3.2 0 012.9-3.2.7.7 0 01.7.4l1.2 2.4a.7.7 0 010 .7z"/></svg></div>
+    <h3 id="callModalTitle">Zavolejte mi</h3>
+    <p class="call-sub">Ozvěte se kdykoliv, rád vám poradím.</p>
+    <div class="call-number">
+      <span id="callNumber">+420 606 446 491</span>
+      <button type="button" class="call-copy" id="callCopy">Kopírovat</button>
+    </div>
+    <div class="call-actions">
+      <a href="tel:+420606446491" class="call-btn call-btn-primary" data-direct><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 7.2a8.5 8.5 0 002.5 2.5l1.3-1a.7.7 0 01.7 0l2.4 1.2a.7.7 0 01.4.7 3.2 3.2 0 01-3.2 2.9C5.6 13.5 2.5 10.4 2.5 6.4a3.2 3.2 0 012.9-3.2.7.7 0 01.7.4l1.2 2.4a.7.7 0 010 .7z"/></svg>Zavolat</a>
+      <a href="https://wa.me/420606446491?text=Dobr%C3%BD%20den%2C%20m%C3%A1m%20z%C3%A1jem%20o%20odhad%20ceny%20nemovitosti." class="call-btn call-btn-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 01-12.3 7.5L3 21l2-5.5A8.4 8.4 0 1121 11.5z"/></svg>Přes WhatsApp</a>
+    </div>
+  </div>
+</div>
+
 <!-- Cookie lišta (modální okno přes stránku) -->
 <div class="cookie-banner" id="cookieBanner" role="dialog" aria-modal="true" aria-labelledby="cookieBannerTitle" hidden>
   <div class="cookie-inner">
@@ -1439,6 +1529,7 @@ body.cookie-open { overflow: hidden; }
   if (window.location.search.indexOf('submitted=true') !== -1) {
     formView.hidden = true;
     successView.hidden = false;
+    window.mrTrack('generate_lead', { form: 'odhad_ceny' });
     try { history.replaceState(null, '', pageUrl + window.location.hash); } catch(e) {}
   }
 
@@ -1460,8 +1551,7 @@ body.cookie-open { overflow: hidden; }
   }
 
   function showSuccess() {
-    window.dataLayer = window.dataLayer || [];
-    dataLayer.push({ event: 'generate_lead', form: 'odhad_ceny' });
+    window.mrTrack('generate_lead', { form: 'odhad_ceny' });
     formView.hidden = true;
     successView.hidden = false;
     successView.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1685,13 +1775,57 @@ body.cookie-open { overflow: hidden; }
   new IntersectionObserver(function(en) { formVisible = en[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(form);
 })();
 
+
+// ── Telefon: místo okamžitého volání ukázat okno s číslem ──
+(function() {
+  var modal = document.getElementById('callModal');
+  if (!modal) return;
+  var copyBtn = document.getElementById('callCopy');
+  var lastFocus = null;
+  function open(e) {
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('call-open');
+    window.mrTrack('open_call_popup');
+    var btn = modal.querySelector('.call-btn-primary'); if (btn) btn.focus();
+  }
+  function close() {
+    modal.hidden = true;
+    document.body.classList.remove('call-open');
+    copyBtn.textContent = 'Kopírovat';
+    if (lastFocus) lastFocus.focus();
+  }
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="tel:"]');
+    if (!a || a.hasAttribute('data-direct')) return;
+    e.preventDefault();
+    open();
+  });
+  document.getElementById('callClose').addEventListener('click', close);
+  modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && !modal.hidden) close(); });
+  copyBtn.addEventListener('click', function() {
+    var num = '+420606446491';
+    function done() { copyBtn.textContent = 'Zkopírováno ✓'; window.mrTrack('copy_phone'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(num).then(done, function() { selectNum(); });
+    } else { selectNum(); }
+    function selectNum() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById('callNumber'));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try { if (document.execCommand('copy')) done(); } catch (err) {}
+    }
+  });
+})();
+
 // ── Měření kliknutí na telefon / WhatsApp / e-mail ──
 document.addEventListener('click', function(e) {
   var a = e.target.closest('a[href]');
   if (!a) return;
   var h = a.getAttribute('href');
+  if (h.indexOf('tel:') === 0 && !a.hasAttribute('data-direct')) return;
   var ev = h.indexOf('tel:') === 0 ? 'click_call' : h.indexOf('wa.me') !== -1 ? 'click_whatsapp' : h.indexOf('mailto:') === 0 ? 'click_email' : null;
-  if (ev) { window.dataLayer = window.dataLayer || []; dataLayer.push({ event: ev }); }
+  if (ev) window.mrTrack(ev);
 });
 </script>
 </body>
