@@ -12,7 +12,7 @@ gtag('consent', 'default', {
 });
 (function() {
   var KEY = 'mr_cookie_consent_v1';
-  var loaded = { gtm: false, sklik: false };
+  var loaded = { gtm: false, sklik: false, meta: false };
   function loadGTM() {
     if (loaded.gtm) return; loaded.gtm = true;
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -20,6 +20,19 @@ gtag('consent', 'default', {
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-TTXR4G3B');
+  }
+  // Meta Pixel (Facebook / Instagram): sem vlož ID pixelu z Meta Správce událostí
+  var META_PIXEL_ID = '1474556197883667';
+  function loadMeta() {
+    if (loaded.meta || !META_PIXEL_ID) return; loaded.meta = true;
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('consent', 'grant');
+    window.fbq('init', META_PIXEL_ID);
+    window.fbq('track', 'PageView');
   }
   function loadSklik() {
     if (loaded.sklik) return; loaded.sklik = true;
@@ -47,7 +60,7 @@ gtag('consent', 'default', {
       ad_personalization: c.marketing ? 'granted' : 'denied'
     });
     if (c.analytics || c.marketing) loadGTM();
-    if (c.marketing) loadSklik();
+    if (c.marketing) { loadSklik(); loadMeta(); }
   }
   // Měření konverzí: pošle událost do GTM a odpovídající událost do Skliku
   var sklikQueue = [];
@@ -59,6 +72,7 @@ gtag('consent', 'default', {
     if (SKLIK_MAP[name]) {
       if (typeof window.SEM === 'function') { try { window.SEM('track', SKLIK_MAP[name]); } catch (e) {} }
       else sklikQueue.push(SKLIK_MAP[name]);
+      if (typeof window.fbq === 'function') { try { window.fbq('track', SKLIK_MAP[name]); } catch (e) {} }
     }
   };
   window.mrConsent = {
@@ -998,8 +1012,8 @@ a.footer-link { color: inherit; }
 /* ── Cookie lišta ── */
 .cookie-banner {
   position: fixed; inset: 0; z-index: 100;
-  background: rgba(26,29,38,0.6);
-  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  background: rgba(26,29,38,0.3);
+  backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px);
   display: flex; align-items: center; justify-content: center; padding: 16px;
 }
 .cookie-banner[hidden], .cookie-modal[hidden] { display: none; }
@@ -1024,7 +1038,6 @@ a.footer-link { color: inherit; }
   color: var(--text-mid); text-decoration: underline; text-underline-offset: 2px; cursor: pointer;
 }
 .cookie-text-btn:hover { color: var(--text); }
-body.cookie-open { overflow: hidden; }
 .cookie-link {
   background: none; border: none; padding: 0; font: inherit; font-weight: 600;
   color: var(--blue); text-decoration: underline; cursor: pointer;
@@ -1501,7 +1514,7 @@ body.cookie-open { overflow: hidden; }
       <label class="switch"><input type="checkbox" id="ckAnalytics"><span></span></label>
     </div>
     <div class="cookie-row">
-      <div><strong>Marketingové</strong><span>Měření účinnosti reklam a remarketing (Seznam Sklik, Google Ads).</span></div>
+      <div><strong>Marketingové</strong><span>Měření účinnosti reklam a remarketing (Seznam Sklik, Google Ads, Meta: Facebook a Instagram).</span></div>
       <label class="switch"><input type="checkbox" id="ckMarketing"><span></span></label>
     </div>
     <div class="cookie-modal-actions">
