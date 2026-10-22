@@ -8,10 +8,15 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://miroslavrind.cz/ochrana-osobnich-udaju.html">
 <meta name="theme-color" content="#DC1C2E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&display=swap">
+<link rel="preload" href="manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="manrope-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* ── Písma (hostovaná přímo na webu) ── */
+@font-face { font-family: 'Manrope'; font-style: normal; font-display: swap; font-weight: 200 800; src: url(manrope-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-display: swap; font-weight: 200 800; src: url(manrope-latin.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Crimson Pro'; font-style: normal; font-display: swap; font-weight: 200 900; src: url(crimson-pro-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'Crimson Pro'; font-style: normal; font-display: swap; font-weight: 200 900; src: url(crimson-pro-latin.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
 :root {
   --ground: #F7F7F8;
   --surface: #FFFFFF;
@@ -191,7 +196,8 @@ td strong { display: block; margin-bottom: 2px; }
         <li><strong>REMAX Czech Republic</strong>: provoz pracovní e-mailové schránky. Pokud spolu uzavřeme smlouvu, pak i kancelář REMAX Alfa 2 v rozsahu nutném pro realizaci obchodu.</li>
         <li><strong>GitHub, Inc.</strong>: hosting webu (serverové záznamy).</li>
         <li><strong>Seznam.cz, a.s.</strong>: mapa a našeptávač adres (Mapy.com), s vaším souhlasem měření reklamy Sklik.</li>
-        <li><strong>Google Ireland Limited</strong>: písma webu (Google Fonts), s vaším souhlasem Google Tag Manager, Google Analytics a Google Ads.</li>
+        <li><strong>Google Ireland Limited</strong>: pouze s vaším souhlasem Google Tag Manager, Google Analytics a Google Ads.</li>
+        <li><strong>Meta Platforms Ireland Limited</strong>: pouze s vaším souhlasem měření reklam na Facebooku a Instagramu (Meta Pixel).</li>
         <li><strong>WhatsApp Ireland Limited</strong>: pouze pokud mi sami napíšete přes WhatsApp.</li>
       </ul>
       <p>Některé z těchto služeb mohou údaje zpracovávat i mimo Evropskou unii, zejména v USA. Předání probíhá na základě rámce EU–USA pro ochranu osobních údajů (Data Privacy Framework) nebo standardních smluvních doložek schválených Evropskou komisí. Údaje mohu předat i orgánům veřejné moci, pokud mi to ukládá zákon.</p>
@@ -205,7 +211,7 @@ td strong { display: block; margin-bottom: 2px; }
       <h3>Analytické (jen se souhlasem)</h3>
       <p>Google Tag Manager a Google Analytics. Pomáhají mi pochopit, kolik lidí web navštíví a co na něm funguje.</p>
       <h3>Marketingové (jen se souhlasem)</h3>
-      <p>Seznam Sklik a Google Ads. Měří, jestli reklama funguje, a umožňují zobrazit reklamu lidem, kteří už web navštívili.</p>
+      <p>Seznam Sklik, Google Ads a Meta Pixel (Facebook a Instagram). Měří, jestli reklama funguje, a umožňují zobrazit reklamu lidem, kteří už web navštívili.</p>
       <p>Dokud souhlas neudělíte, tyto nástroje se vůbec nenačtou. Souhlas můžete kdykoliv změnit nebo odvolat:</p>
       <a class="btn" href="index.html#nastaveni-cookies">Změnit nastavení cookies</a>
     </section>
